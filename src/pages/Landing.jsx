@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { listenToLatestJobs } from '../firebase/firestore'
 import { JOB_CATEGORIES } from '../utils/formatters'
+import { useAuth } from '../contexts/AuthContext'
 import JobCard from '../components/jobs/JobCard'
 import JobSearch from '../components/jobs/JobSearch'
 import { SkeletonJobCard } from '../components/ui/Skeleton'
@@ -38,6 +39,7 @@ const stagger = {
 }
 
 const Landing = () => {
+  const { user }  = useAuth()
   const [jobs,    setJobs]    = useState([])
   const [loading, setLoading] = useState(true)
   const navigate  = useNavigate()
@@ -203,6 +205,26 @@ const Landing = () => {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {Array.from({ length: 8 }).map((_, i) => <SkeletonJobCard key={i} />)}
+            </div>
+          ) : !user ? (
+            <div className="card-glass p-8 py-12 text-center rounded-3xl max-w-xl mx-auto border border-surface-200/50 dark:border-surface-700/50 shadow-glass-dark relative overflow-hidden backdrop-blur-md">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
+                <span className="text-3xl">🔒</span>
+              </div>
+              <h3 className="font-heading font-extrabold text-2xl text-surface-900 dark:text-surface-50 mb-3">
+                Unlock Latest Opportunities
+              </h3>
+              <p className="text-surface-500 dark:text-surface-400 text-sm mb-8 leading-relaxed">
+                Sign in or create an account to view salary details, direct recruiter apply links, and browse job postings.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/login" className="btn-primary px-8 py-3 text-sm">
+                  Sign In
+                </Link>
+                <Link to="/login?tab=register" className="btn-secondary px-8 py-3 text-sm">
+                  Create Account
+                </Link>
+              </div>
             </div>
           ) : jobs.length === 0 ? (
             <div className="text-center py-20">

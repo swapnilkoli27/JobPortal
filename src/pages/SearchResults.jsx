@@ -1,11 +1,12 @@
 // Job Listings Page – search results with filters and infinite scroll
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { BriefcaseBusiness, SearchX } from 'lucide-react'
 import { useJobs } from '../hooks/useJobs'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { useAuth } from '../contexts/AuthContext'
 import JobCard from '../components/jobs/JobCard'
 import JobFilters from '../components/jobs/JobFilters'
 import JobSearch from '../components/jobs/JobSearch'
@@ -13,6 +14,7 @@ import { SkeletonJobCard } from '../components/ui/Skeleton'
 import AdBanner from '../components/ads/AdBanner'
 
 const SearchResults = () => {
+  const { user } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const initialFilters = {
     search:     searchParams.get('search')   || undefined,
@@ -104,7 +106,27 @@ const SearchResults = () => {
               </div>
 
               {/* Job grid */}
-              {loading && jobs.length === 0 ? (
+              {!user ? (
+                <div className="card-glass p-8 py-12 text-center rounded-3xl max-w-xl mx-auto border border-surface-200/50 dark:border-surface-700/50 shadow-glass-dark relative overflow-hidden backdrop-blur-md mt-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
+                    <span className="text-3xl">🔒</span>
+                  </div>
+                  <h3 className="font-heading font-extrabold text-2xl text-surface-900 dark:text-surface-50 mb-3">
+                    Sign In to See Jobs
+                  </h3>
+                  <p className="text-surface-500 dark:text-surface-400 text-sm mb-8 leading-relaxed">
+                    Access verified salaries, custom category filters, bookmarks, and apply directly to top-tier companies.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link to="/login" className="btn-primary px-8 py-3 text-sm">
+                      Sign In
+                    </Link>
+                    <Link to="/login?tab=register" className="btn-secondary px-8 py-3 text-sm">
+                      Create Account
+                    </Link>
+                  </div>
+                </div>
+              ) : loading && jobs.length === 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                   {Array.from({ length: 9 }).map((_, i) => <SkeletonJobCard key={i} />)}
                 </div>

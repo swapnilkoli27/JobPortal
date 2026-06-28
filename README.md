@@ -1,6 +1,6 @@
-# 🚀 JobPortal – Production-Ready Job Portal
+# 🚀 MyJobUniverse – Production-Ready Job Board
 
-A full-featured, modern job portal built with **React + Vite**, **Tailwind CSS v4**, **Firebase**, and **PWA** support.
+A full-featured, modern job board built with **React + Vite**, **Tailwind CSS v4**, **Firebase**, and **PWA** support.
 
 ## 🏗️ Tech Stack
 
@@ -30,14 +30,14 @@ A full-featured, modern job portal built with **React + Vite**, **Tailwind CSS v
 ### 2. Environment Variables
 ```bash
 cp .env.example .env
-# Fill in your Firebase credentials
+# Fill in your Firebase credentials and VAPID key
 ```
 
 ### 3. Firestore Security Rules
-Copy `src/firebase/firestore.rules` into Firebase Console → Firestore → Rules.
+Follow the secure rules configuration described in the deployment and security guide.
 
 ### 4. Set Admin User
-After registering, go to Firestore → `users` collection → your UID → add `role: "admin"`.
+After registering, go to Firestore → `users` collection → your UID → add/update `role: "admin"`.
 
 ### 5. Run
 ```bash

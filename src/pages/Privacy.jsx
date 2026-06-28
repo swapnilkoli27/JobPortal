@@ -1,7 +1,7 @@
 // Privacy Policy Page
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import { Eye, Shield, Key, Database } from 'lucide-react'
+import { Eye, Shield, Key, Database, Cookie } from 'lucide-react'
 
 const Privacy = () => {
   return (
@@ -59,6 +59,11 @@ const Privacy = () => {
                 icon: Key,
                 title: '4. Your Choices & Access',
                 content: 'You can update your account profile details, modify category alert preferences, or unsubscribe from push notifications directly inside your user dashboard settings at any time.',
+              },
+              {
+                icon: Cookie,
+                title: '5. Third-Party Advertising & Cookies (Google AdSense)',
+                content: 'We use third-party advertising services, including Google AdSense, to serve ads when you visit our website. Google uses cookies, including the DoubleClick cookie, to serve ads based on your prior visits to our site or other websites. You may opt out of personalized advertising by visiting Google\'s Ads Settings.',
               },
             ].map(({ icon: Icon, title, content }) => (
               <div key={title} className="card p-6 md:p-8 space-y-4">

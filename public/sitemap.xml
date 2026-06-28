@@ -2,19 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Static routes -->
   <url>
-    <loc>https://yourjobportal.com/</loc>
+    <loc>https://myjobuniverse.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yourjobportal.com/jobs</loc>
+    <loc>https://myjobuniverse.com/jobs</loc>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://yourjobportal.com/categories</loc>
+    <loc>https://myjobuniverse.com/categories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/privacy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/terms</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/advertise</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
   <!--
     Dynamic job pages are best generated via a server-side sitemap script
@@ -26,7 +51,7 @@
         .where('status', '==', 'published')
         .get()
       const urls = snap.docs.map(d =>
-        `<url><loc>https://yourjobportal.com/jobs/${d.id}</loc><changefreq>weekly</changefreq></url>`
+        `<url><loc>https://myjobuniverse.com/jobs/${d.id}</loc><changefreq>weekly</changefreq></url>`
       ).join('')
       res.set('Content-Type', 'application/xml')
       res.send(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`)

@@ -1,6 +1,7 @@
 // useJobs – hook for paginated, filtered job fetching with infinite scroll
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { getJobs } from '../firebase/firestore'
+import { auth } from '../firebase/config'
 
 export const useJobs = (initialFilters = {}) => {
   const [jobs,     setJobs]     = useState([])
@@ -13,6 +14,13 @@ export const useJobs = (initialFilters = {}) => {
   const isFirst    = useRef(true)
 
   const fetchJobs = useCallback(async (reset = false) => {
+    if (!auth.currentUser) {
+      setLoading(false)
+      setJobs([])
+      setHasMore(false)
+      return
+    }
+
     try {
       setLoading(true)
       setError(null)
@@ -30,13 +38,13 @@ export const useJobs = (initialFilters = {}) => {
     }
   }, [filters])
 
-  // Initial load & filter changes
+  // Initial load, filter changes & login state changes
   useEffect(() => {
     lastDocRef.current = null
     setJobs([])
     setHasMore(true)
     fetchJobs(true)
-  }, [filters])
+  }, [filters, auth.currentUser])
 
   const loadMore = useCallback(() => {
     if (!loading && hasMore) fetchJobs(false)

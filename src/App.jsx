@@ -28,6 +28,7 @@ const AdminLayout   = lazy(() => import('./pages/admin/AdminLayout'))
 const AdminDashboard= lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminJobs     = lazy(() => import('./pages/admin/AdminJobs'))
 const AdminJobForm  = lazy(() => import('./pages/admin/AdminJobForm'))
+const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics'))
 
 // Loading spinner
 const PageLoader = () => (
@@ -128,12 +129,7 @@ const App = () => (
                   <Route path="jobs"     element={<AdminJobs />} />
                   <Route path="jobs/new" element={<AdminJobForm />} />
                   <Route path="jobs/edit/:id" element={<AdminJobForm />} />
-                  <Route path="analytics" element={
-                    <div className="card p-6">
-                      <h1 className="font-heading font-bold text-2xl text-surface-900 dark:text-surface-50 mb-2">Analytics</h1>
-                      <p className="text-surface-500">Detailed analytics coming soon. View summary on the Dashboard.</p>
-                    </div>
-                  } />
+                  <Route path="analytics" element={<AdminAnalytics />} />
                 </Route>
 
                 {/* 404 */}
