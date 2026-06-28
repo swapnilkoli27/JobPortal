@@ -16,7 +16,6 @@ import toast from 'react-hot-toast'
 const NAV_LINKS = [
   { label: 'Find Jobs',   to: '/jobs'        },
   { label: 'Categories',  to: '/categories'  },
-  { label: 'Companies',   to: '/companies'   },
 ]
 
 const Navbar = () => {

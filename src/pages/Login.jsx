@@ -96,17 +96,12 @@ const Login = () => {
               <span className="font-heading font-black text-2xl text-white">MyJobUniverse</span>
             </Link>
 
-            <h2 className="font-heading font-black text-4xl text-white mb-4 leading-tight">
+            <h2 className="font-heading font-black text-4xl text-white mb-12 leading-tight">
               Your Career Journey<br />Starts Here
             </h2>
-            <p className="text-white/70 text-lg mb-12">
-              Join millions of professionals finding their perfect role.
-            </p>
 
             {[
-              '✅ 50,000+ verified job listings',
               '✅ Real-time job alerts',
-              '✅ Save & apply in one click',
               '✅ 100% free for job seekers',
             ].map(item => (
               <p key={item} className="text-white/80 text-left mb-3">{item}</p>
