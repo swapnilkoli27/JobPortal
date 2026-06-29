@@ -27,12 +27,17 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/privacy</loc>
+    <loc>https://myjobuniverse.com/privacy-policy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/terms</loc>
+    <loc>https://myjobuniverse.com/terms-and-conditions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://myjobuniverse.com/disclaimer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -41,20 +46,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
-  <!--
-    Dynamic job pages are best generated via a server-side sitemap script
-    that reads from Firestore. Example Cloud Function:
-
-    exports.sitemap = functions.https.onRequest(async (req, res) => {
-      const snap = await admin.firestore()
-        .collection('jobs')
-        .where('status', '==', 'published')
-        .get()
-      const urls = snap.docs.map(d =>
-        `<url><loc>https://myjobuniverse.com/jobs/${d.id}</loc><changefreq>weekly</changefreq></url>`
-      ).join('')
-      res.set('Content-Type', 'application/xml')
-      res.send(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`)
-    })
-  -->
 </urlset>

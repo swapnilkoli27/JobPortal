@@ -92,8 +92,9 @@ const Footer = () => (
           <ul className="space-y-2.5 text-sm">
             {[
               { label: 'About Us',       to: '/about'   },
-              { label: 'Privacy Policy', to: '/privacy' },
-              { label: 'Terms of Use',   to: '/terms'   },
+              { label: 'Privacy Policy', to: '/privacy-policy' },
+              { label: 'Terms of Use',   to: '/terms-and-conditions' },
+              { label: 'Disclaimer',     to: '/disclaimer' },
               { label: 'Contact Us',     to: '/contact' },
               { label: 'Advertise',      to: '/advertise' },
             ].map(({ label, to }) => (

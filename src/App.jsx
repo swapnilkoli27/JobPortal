@@ -22,6 +22,7 @@ const Terms         = lazy(() => import('./pages/Terms'))
 const Contact       = lazy(() => import('./pages/Contact'))
 const Advertise     = lazy(() => import('./pages/Advertise'))
 const Categories    = lazy(() => import('./pages/Categories'))
+const Disclaimer    = lazy(() => import('./pages/Disclaimer'))
 
 // Admin (heavier chunk)
 const AdminLayout   = lazy(() => import('./pages/admin/AdminLayout'))
@@ -107,10 +108,26 @@ const App = () => (
                     <Privacy />
                   </MainLayout>
                 } />
+                <Route path="/privacy-policy" element={
+                  <MainLayout>
+                    <Privacy />
+                  </MainLayout>
+                } />
 
                 <Route path="/terms" element={
                   <MainLayout>
                     <Terms />
+                  </MainLayout>
+                } />
+                <Route path="/terms-and-conditions" element={
+                  <MainLayout>
+                    <Terms />
+                  </MainLayout>
+                } />
+
+                <Route path="/disclaimer" element={
+                  <MainLayout>
+                    <Disclaimer />
                   </MainLayout>
                 } />
 

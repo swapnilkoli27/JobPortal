@@ -81,10 +81,10 @@ const JobDetail = () => {
     <>
       {job && (
         <Helmet>
-          <title>{job.title} at {job.company} – MyJobUniverse</title>
-          <meta name="description" content={`${job.title} at ${job.company} in ${job.location}. ${formatSalary(job.salaryMin, job.salaryMax)}. Apply now on MyJobUniverse.`} />
-          <meta property="og:title"       content={`${job.title} at ${job.company}`} />
-          <meta property="og:description" content={`${job.location} · ${formatSalary(job.salaryMin, job.salaryMax)}`} />
+          <title>{job.location ? `${job.title} Jobs in ${job.location} | MyJobUniverse` : `${job.title} Jobs | MyJobUniverse`}</title>
+          <meta name="description" content={`Apply now for ${job.title} Jobs in ${job.location || 'India'} at ${job.company}. Salary: ${formatSalary(job.salaryMin, job.salaryMax)}. Find your dream job on MyJobUniverse.`} />
+          <meta property="og:title"       content={job.location ? `${job.title} Jobs in ${job.location} | MyJobUniverse` : `${job.title} Jobs | MyJobUniverse`} />
+          <meta property="og:description" content={`${job.location || 'India'} · ${formatSalary(job.salaryMin, job.salaryMax)} · ${job.company}`} />
           <meta property="og:image"       content={job.logoUrl || ''} />
           <meta property="og:type"        content="article" />
         </Helmet>

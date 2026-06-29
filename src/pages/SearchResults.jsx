@@ -7,6 +7,7 @@ import { BriefcaseBusiness, SearchX } from 'lucide-react'
 import { useJobs } from '../hooks/useJobs'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { useAuth } from '../contexts/AuthContext'
+import { JOB_CATEGORIES } from '../utils/formatters'
 import JobCard from '../components/jobs/JobCard'
 import JobFilters from '../components/jobs/JobFilters'
 import JobSearch from '../components/jobs/JobSearch'
@@ -36,21 +37,29 @@ const SearchResults = () => {
 
   const handleSearch = (term) => updateFilters({ search: term })
 
+  const categoryObject = JOB_CATEGORIES.find(c => c.id === filters.category)
+  const categoryLabel = categoryObject ? categoryObject.label : ''
   const activeFilterCount = Object.values(filters).filter(v => v && v !== 'undefined').length
+
+  const getSeoTitle = () => {
+    if (filters.search && categoryLabel) {
+      return `"${filters.search}" in ${categoryLabel} Jobs | MyJobUniverse`
+    }
+    if (filters.search) {
+      return `"${filters.search}" Jobs | MyJobUniverse`
+    }
+    if (categoryLabel) {
+      return `${categoryLabel} Jobs in India | MyJobUniverse`
+    }
+    return 'Find Your Next Job – Browse All Jobs | MyJobUniverse'
+  }
 
   return (
     <>
       <Helmet>
-        <title>
-          {filters.search
-            ? `"${filters.search}" – Job Search`
-            : filters.category
-            ? `${filters.category} Jobs`
-            : 'Browse All Jobs'
-          } – MyJobUniverse
-        </title>
+        <title>{getSeoTitle()}</title>
         <meta name="description"
-          content="Search and filter thousands of job listings by category, location, experience, and work mode." />
+          content={`Search and filter thousands of ${categoryLabel || 'IT & non-IT'} job listings in India. Find career opportunities matching your skills and experience.`} />
       </Helmet>
 
       <div className="pt-20 min-h-screen">
