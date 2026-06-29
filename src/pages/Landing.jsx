@@ -46,12 +46,16 @@ const Landing = () => {
 
   // Real-time job listener
   useEffect(() => {
+    if (!user) {
+      setLoading(false)
+      return
+    }
     const unsub = listenToLatestJobs(newJobs => {
       setJobs(newJobs)
       setLoading(false)
-    }, 8)
+    }, 10)
     return unsub
-  }, [])
+  }, [user])
 
   return (
     <>
@@ -202,11 +206,7 @@ const Landing = () => {
             </Link>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {Array.from({ length: 8 }).map((_, i) => <SkeletonJobCard key={i} />)}
-            </div>
-          ) : !user ? (
+          {!user ? (
             <div className="card-glass p-8 py-12 text-center rounded-3xl max-w-xl mx-auto border border-surface-200/50 dark:border-surface-700/50 shadow-glass-dark relative overflow-hidden backdrop-blur-md">
               <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
                 <span className="text-3xl">🔒</span>
@@ -226,22 +226,27 @@ const Landing = () => {
                 </Link>
               </div>
             </div>
+          ) : loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {Array.from({ length: 10 }).map((_, i) => <SkeletonJobCard key={i} />)}
+            </div>
           ) : jobs.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-4xl mb-3">🔍</p>
               <p className="text-surface-500">No jobs posted yet. Check back soon!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i} />)}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i} />)}
+              </div>
+              <div className="text-center mt-10">
+                <Link to="/jobs" className="btn-primary inline-flex items-center gap-2">
+                  Browse More Jobs <ArrowRight size={16} />
+                </Link>
+              </div>
+            </>
           )}
-
-          <div className="text-center mt-8 md:hidden">
-            <Link to="/jobs" className="btn-primary">
-              View All Jobs <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       </section>
 

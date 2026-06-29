@@ -1,16 +1,18 @@
 // JobCard – card for displaying a single job listing
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   MapPin, Clock, DollarSign, Bookmark, BookmarkCheck,
-  ExternalLink, Star, TrendingUp
+  Star, TrendingUp, Share2
 } from 'lucide-react'
 import { timeAgo, formatSalary, WORK_MODE_LABELS, JOB_CATEGORIES } from '../../utils/formatters'
 import { useBookmarks } from '../../hooks/useBookmarks'
 import Badge from '../ui/Badge'
+import ShareModal from '../common/ShareModal'
 
 const JobCard = memo(({ job, index = 0 }) => {
+  const [shareOpen, setShareOpen] = useState(false)
   const { isBookmarked, toggleBookmark } = useBookmarks()
   const saved    = isBookmarked(job.id)
   const category = JOB_CATEGORIES.find(c => c.id === job.category)
@@ -133,13 +135,31 @@ const JobCard = memo(({ job, index = 0 }) => {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 justify-end">
+            {/* Share */}
+            <motion.button
+              whileTap={{ scale: 0.85 }}
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                setShareOpen(true)
+              }}
+              className="p-2 rounded-xl text-surface-400 hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all duration-200 cursor-pointer"
+              aria-label="Share job"
+            >
+              <Share2 size={16} />
+            </motion.button>
+
             {/* Bookmark */}
             <motion.button
               whileTap={{ scale: 0.85 }}
-              onClick={() => toggleBookmark(job)}
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                toggleBookmark(job)
+              }}
               className={`
-                p-2 rounded-xl transition-all duration-200
+                p-2 rounded-xl transition-all duration-200 cursor-pointer
                 ${saved
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
                   : 'text-surface-400 hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'
@@ -153,28 +173,23 @@ const JobCard = memo(({ job, index = 0 }) => {
               }
             </motion.button>
 
-            {/* Apply */}
-            {job.applyLink ? (
-              <a
-                href={job.applyLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary py-1.5 px-4 text-xs"
-                aria-label={`Apply for ${job.title}`}
-              >
-                Apply <ExternalLink size={12} />
-              </a>
-            ) : (
-              <Link
-                to={`/jobs/${job.id}`}
-                className="btn-secondary py-1.5 px-4 text-xs"
-              >
-                View Job
-              </Link>
-            )}
+            {/* View Info */}
+            <Link
+              to={`/jobs/${job.id}`}
+              className="btn-primary py-1.5 px-4 text-xs font-semibold rounded-xl"
+            >
+              View Info
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        job={job}
+      />
     </motion.article>
   )
 })

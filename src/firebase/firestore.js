@@ -21,10 +21,10 @@ const VIEWS_COL  = 'views'
  * @param {number} pageSize
  */
 export const getJobs = async (filters = {}, lastDoc = null, pageSize = 12) => {
-  // Query jobs ordered by postedAt (fully index-free out-of-the-box!)
-  // Limit to 2000 jobs to balance performance and scale
+  // Query only published jobs to align with Firestore security rules (rules are not filters!)
   const q = query(
     collection(db, JOBS_COL),
+    where('status', '==', 'published'),
     orderBy('postedAt', 'desc'),
     limit(2000)
   )
@@ -115,13 +115,12 @@ export const getJob = async (id) => {
 export const listenToLatestJobs = (callback, pageSize = 12) => {
   const q = query(
     collection(db, JOBS_COL),
+    where('status', '==', 'published'),
     orderBy('postedAt', 'desc'),
     limit(pageSize)
   )
   return onSnapshot(q, snap => {
-    const jobs = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(j => j.status === 'published')
+    const jobs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
     callback(jobs)
   })
 }
@@ -300,13 +299,14 @@ export const saveFcmToken = async (userId, token) => {
 export const getSimilarJobs = async (category, excludeId, count = 4) => {
   const q    = query(
     collection(db, JOBS_COL),
+    where('status', '==', 'published'),
     where('category', '==', category),
     limit(count + 10)
   )
   const snap = await getDocs(q)
   return snap.docs
     .map(d => ({ id: d.id, ...d.data() }))
-    .filter(j => j.status === 'published' && j.id !== excludeId)
+    .filter(j => j.id !== excludeId)
     .sort((a, b) => {
       const aTime = a.postedAt?.toDate ? a.postedAt.toDate().getTime() : 0
       const bTime = b.postedAt?.toDate ? b.postedAt.toDate().getTime() : 0

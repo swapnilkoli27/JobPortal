@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Search, Menu, X, BriefcaseBusiness, Moon, Sun,
+  Search, BriefcaseBusiness, Moon, Sun,
   User, LogOut, LayoutDashboard, Shield, Bookmark
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
@@ -23,7 +23,6 @@ const Navbar = () => {
   const { theme, toggleTheme }         = useTheme()
   const navigate     = useNavigate()
   const location     = useLocation()
-  const [menuOpen,   setMenuOpen]   = useState(false)
   const [profileOpen,setProfileOpen] = useState(false)
   const [scrolled,   setScrolled]   = useState(false)
   const profileRef   = useRef(null)
@@ -204,55 +203,8 @@ const Navbar = () => {
                 <User size={16} /> Sign In
               </Link>
             )}
-
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden btn-ghost p-2 rounded-xl"
-              onClick={() => setMenuOpen(p => !p)}
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
           </div>
         </nav>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              className="md:hidden pb-4 space-y-1 border-t border-surface-200 dark:border-surface-800 mt-1"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{    opacity: 0, height: 0 }}
-            >
-              {NAV_LINKS.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMenuOpen(false)}
-                  className={`
-                    block px-4 py-3 rounded-xl text-sm font-medium
-                    ${isActive(link.to)
-                      ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300'
-                      : 'text-surface-700 dark:text-surface-300'
-                    }
-                  `}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              {!user && (
-                <Link
-                  to="/login"
-                  onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-3 text-sm font-semibold text-primary-600 dark:text-primary-400"
-                >
-                  Sign In / Register
-                </Link>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </header>
   )

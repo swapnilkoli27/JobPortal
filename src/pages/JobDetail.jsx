@@ -18,12 +18,14 @@ import { SkeletonJobDetail } from '../components/ui/Skeleton'
 import JobCard from '../components/jobs/JobCard'
 import AdBanner from '../components/ads/AdBanner'
 import toast from 'react-hot-toast'
+import ShareModal from '../components/common/ShareModal'
 
 const JobDetail = () => {
   const { id }     = useParams()
   const navigate   = useNavigate()
   const { user }   = useAuth()
   const { isBookmarked, toggleBookmark } = useBookmarks()
+  const [shareOpen, setShareOpen] = useState(false)
 
   const [job,          setJob]          = useState(null)
   const [similarJobs,  setSimilarJobs]  = useState([])
@@ -56,18 +58,8 @@ const JobDetail = () => {
     return () => { cleanup.then(fn => fn?.()) }
   }, [id, user])
 
-  const handleShare = async () => {
-    const shareData = {
-      title: job?.title,
-      text:  `${job?.title} at ${job?.company} – Check this out on MyJobUniverse!`,
-      url:   window.location.href,
-    }
-    if (navigator.share) {
-      await navigator.share(shareData)
-    } else {
-      await navigator.clipboard.writeText(window.location.href)
-      toast.success('Link copied to clipboard!')
-    }
+  const handleShare = () => {
+    setShareOpen(true)
   }
 
   if (notFound) {
@@ -317,6 +309,11 @@ const JobDetail = () => {
           )}
         </div>
       </div>
+      <ShareModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        job={job}
+      />
     </>
   )
 }

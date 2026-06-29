@@ -59,7 +59,6 @@ const Footer = () => (
             {[
               { label: 'Browse Jobs',   to: '/jobs'       },
               { label: 'Categories',    to: '/categories' },
-              { label: 'Companies',     to: '/companies'  },
               { label: 'Dashboard',     to: '/dashboard'  },
               { label: 'Saved Jobs',    to: '/dashboard/bookmarks' },
             ].map(({ label, to }) => (
