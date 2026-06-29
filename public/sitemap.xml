@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Static routes -->
   <url>
-    <loc>https://myjobuniverse.com/</loc>
+    <loc>https://myjobuniverse.site/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/jobs</loc>
+    <loc>https://myjobuniverse.site/jobs</loc>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/categories</loc>
+    <loc>https://myjobuniverse.site/categories</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/about</loc>
+    <loc>https://myjobuniverse.site/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/contact</loc>
+    <loc>https://myjobuniverse.site/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/privacy-policy</loc>
+    <loc>https://myjobuniverse.site/privacy-policy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/terms-and-conditions</loc>
+    <loc>https://myjobuniverse.site/terms-and-conditions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/disclaimer</loc>
+    <loc>https://myjobuniverse.site/disclaimer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://myjobuniverse.com/advertise</loc>
+    <loc>https://myjobuniverse.site/advertise</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
