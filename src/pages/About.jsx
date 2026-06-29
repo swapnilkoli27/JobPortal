@@ -7,8 +7,14 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Us – MyJobUniverse</title>
-        <meta name="description" content="Learn more about MyJobUniverse, our mission, vision, and core values." />
+        <title>About Us | MyJobUniverse</title>
+        <meta name="description" content="Learn more about MyJobUniverse, our mission to connect top talent with India's leading organizations, and our core values." />
+        <meta property="og:title" content="About Us | MyJobUniverse" />
+        <meta property="og:description" content="Learn more about MyJobUniverse, our mission to connect top talent with India's leading organizations, and our core values." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

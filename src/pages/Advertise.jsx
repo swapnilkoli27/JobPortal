@@ -7,8 +7,14 @@ const Advertise = () => {
   return (
     <>
       <Helmet>
-        <title>Advertise With Us – MyJobUniverse</title>
-        <meta name="description" content="Reach millions of job seekers and candidates. Advertise your brand or feature your job postings on MyJobUniverse." />
+        <title>Advertise With Us | MyJobUniverse</title>
+        <meta name="description" content="Reach premium software developers, analysts, interns, and freshers across India. Promote your brand or job listings to active seekers." />
+        <meta property="og:title" content="Advertise With Us | MyJobUniverse" />
+        <meta property="og:description" content="Reach premium software developers, analysts, interns, and freshers across India. Promote your brand or job listings to active seekers." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

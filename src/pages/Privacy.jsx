@@ -7,8 +7,14 @@ const Privacy = () => {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy – MyJobUniverse</title>
-        <meta name="description" content="Learn how MyJobUniverse collects, uses, and safeguards your personal data." />
+        <title>Privacy Policy | MyJobUniverse</title>
+        <meta name="description" content="Learn how MyJobUniverse collects, uses, and safeguards your personal data, including our cookie usage for Google AdSense." />
+        <meta property="og:title" content="Privacy Policy | MyJobUniverse" />
+        <meta property="og:description" content="Learn how MyJobUniverse collects, uses, and safeguards your personal data, including our cookie usage for Google AdSense." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

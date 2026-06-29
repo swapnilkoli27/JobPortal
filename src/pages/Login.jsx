@@ -76,8 +76,14 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>{tab === 'login' ? 'Sign In' : 'Create Account'} – JobPortal</title>
-        <meta name="description" content="Sign in or create an account to access job listings, save jobs, and get notified." />
+        <title>{tab === 'login' ? 'Sign In' : 'Create Account'} | MyJobUniverse</title>
+        <meta name="description" content="Sign in or create a free candidate account on MyJobUniverse to access search history, save jobs, and track applications." />
+        <meta property="og:title" content={tab === 'login' ? 'Sign In | MyJobUniverse' : 'Create Account | MyJobUniverse'} />
+        <meta property="og:description" content="Sign in or create a free candidate account on MyJobUniverse to access search history, save jobs, and track applications." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="min-h-screen flex">

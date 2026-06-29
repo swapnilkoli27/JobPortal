@@ -61,11 +61,13 @@ const Landing = () => {
     <>
       <Helmet>
         <title>MyJobUniverse – Find Your Dream Job in India</title>
-        <meta name="description"
-          content="Discover thousands of job opportunities in India. Search by category, location, and salary. Apply instantly to top companies." />
-        <meta property="og:title"       content="MyJobUniverse – Find Your Dream Job in India" />
-        <meta property="og:description" content="India's fastest growing job universe." />
-        <meta property="og:type"        content="website" />
+        <meta name="description" content="Discover thousands of job opportunities in India. Search by category, location, and salary. Apply instantly to top companies." />
+        <meta property="og:title" content="MyJobUniverse – Find Your Dream Job in India" />
+        <meta property="og:description" content="India's fastest growing job universe. Search by category, location, and salary. Apply instantly to top companies." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       {/* ── Hero Section ─────────────────────────────────────────────── */}

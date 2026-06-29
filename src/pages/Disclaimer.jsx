@@ -7,8 +7,14 @@ const Disclaimer = () => {
   return (
     <>
       <Helmet>
-        <title>Disclaimer – MyJobUniverse</title>
+        <title>Disclaimer | MyJobUniverse</title>
         <meta name="description" content="Read the disclaimer regarding job listings, recruiter information, and content on MyJobUniverse." />
+        <meta property="og:title" content="Disclaimer | MyJobUniverse" />
+        <meta property="og:description" content="Read the disclaimer regarding job listings, recruiter information, and content on MyJobUniverse." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

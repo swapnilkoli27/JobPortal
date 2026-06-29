@@ -8,8 +8,14 @@ const Categories = () => {
   return (
     <>
       <Helmet>
-        <title>Browse Categories – MyJobUniverse</title>
+        <title>Browse Categories | MyJobUniverse</title>
         <meta name="description" content="Explore job openings across various domains, industries, and technological fields." />
+        <meta property="og:title" content="Browse Categories | MyJobUniverse" />
+        <meta property="og:description" content="Explore job openings across various domains, industries, and technological fields." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

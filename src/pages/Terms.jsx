@@ -7,8 +7,14 @@ const Terms = () => {
   return (
     <>
       <Helmet>
-        <title>Terms of Use – MyJobUniverse</title>
-        <meta name="description" content="Read the terms of use governing the use of MyJobUniverse website and services." />
+        <title>Terms & Conditions | MyJobUniverse</title>
+        <meta name="description" content="Read the terms of use and service agreements governing the use of the MyJobUniverse website and features." />
+        <meta property="og:title" content="Terms & Conditions | MyJobUniverse" />
+        <meta property="og:description" content="Read the terms of use and service agreements governing the use of the MyJobUniverse website and features." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">

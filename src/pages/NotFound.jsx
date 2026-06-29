@@ -8,6 +8,13 @@ const NotFound = () => (
   <>
     <Helmet>
       <title>404 – Page Not Found | MyJobUniverse</title>
+      <meta name="description" content="The page you are looking for does not exist on MyJobUniverse. Return to our homepage to find latest job opportunities." />
+      <meta property="og:title" content="404 – Page Not Found | MyJobUniverse" />
+      <meta property="og:description" content="The page you are looking for does not exist on MyJobUniverse. Return to our homepage to find latest job opportunities." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={window.location.href} />
+      <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+      <meta property="og:site_name" content="MyJobUniverse" />
     </Helmet>
     <div className="min-h-screen flex items-center justify-center">
       <motion.div

@@ -27,8 +27,14 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us – MyJobUniverse</title>
-        <meta name="description" content="Get in touch with MyJobUniverse support, sales, or business development teams." />
+        <title>Contact Us | MyJobUniverse</title>
+        <meta name="description" content="Get in touch with MyJobUniverse support, advertisement queries, sales, or business development teams." />
+        <meta property="og:title" content="Contact Us | MyJobUniverse" />
+        <meta property="og:description" content="Get in touch with MyJobUniverse support, advertisement queries, sales, or business development teams." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/favicon.svg`} />
+        <meta property="og:site_name" content="MyJobUniverse" />
       </Helmet>
 
       <div className="pt-24 pb-16 min-h-screen">
