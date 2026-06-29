@@ -8,6 +8,7 @@ import { NotificationProvider } from './contexts/NotificationContext'
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Footer'
 import BottomNav from './components/common/BottomNav'
+import { pageView } from './analytics'
 
 // Lazy-loaded pages
 const Landing       = lazy(() => import('./pages/Landing'))
@@ -53,10 +54,14 @@ const MainLayout = ({ children }) => (
 
 // Scroll to top on route change
 const ScrollToTop = () => {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
+
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [pathname])
+
+    pageView(pathname + search)
+  }, [pathname, search])
+
   return null
 }
 
