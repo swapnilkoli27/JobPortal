@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /admin/*
 
-Sitemap: https://myjobuniverse.site
+Sitemap: https://myjobuniverse.site/sitemap.xml
