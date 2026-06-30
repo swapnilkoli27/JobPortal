@@ -14,13 +14,6 @@ export const useJobs = (initialFilters = {}) => {
   const isFirst    = useRef(true)
 
   const fetchJobs = useCallback(async (reset = false) => {
-    if (!auth.currentUser) {
-      setLoading(false)
-      setJobs([])
-      setHasMore(false)
-      return
-    }
-
     try {
       setLoading(true)
       setError(null)
@@ -38,13 +31,13 @@ export const useJobs = (initialFilters = {}) => {
     }
   }, [filters])
 
-  // Initial load, filter changes & login state changes
+  // Initial load & filter changes
   useEffect(() => {
     lastDocRef.current = null
     setJobs([])
     setHasMore(true)
     fetchJobs(true)
-  }, [filters, auth.currentUser])
+  }, [filters])
 
   const loadMore = useCallback(() => {
     if (!loading && hasMore) fetchJobs(false)

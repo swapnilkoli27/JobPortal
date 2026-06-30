@@ -1,6 +1,6 @@
 // JobCard – card for displaying a single job listing
 import { memo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   MapPin, Clock, DollarSign, Bookmark, BookmarkCheck,
@@ -8,10 +8,13 @@ import {
 } from 'lucide-react'
 import { timeAgo, formatSalary, WORK_MODE_LABELS, JOB_CATEGORIES } from '../../utils/formatters'
 import { useBookmarks } from '../../hooks/useBookmarks'
+import { useAuth } from '../../contexts/AuthContext'
 import Badge from '../ui/Badge'
 import ShareModal from '../common/ShareModal'
 
 const JobCard = memo(({ job, index = 0 }) => {
+  const navigate = useNavigate()
+  const { user } = useAuth()
   const [shareOpen, setShareOpen] = useState(false)
   const { isBookmarked, toggleBookmark } = useBookmarks()
   const saved    = isBookmarked(job.id)
@@ -156,6 +159,10 @@ const JobCard = memo(({ job, index = 0 }) => {
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
+                if (!user) {
+                  navigate(`/login?redirect=${encodeURIComponent(window.location.pathname)}`)
+                  return
+                }
                 toggleBookmark(job)
               }}
               className={`

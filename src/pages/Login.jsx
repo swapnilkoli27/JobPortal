@@ -1,6 +1,6 @@
 // Login / Register Page
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Mail, Lock, Eye, EyeOff, User, BriefcaseBusiness, AlertCircle } from 'lucide-react'
@@ -19,6 +19,7 @@ const GoogleIcon = () => (
 
 const Login = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [tab,        setTab]      = useState('login')    // 'login' | 'register'
   const [loading,    setLoading]  = useState(false)
   const [showPass,   setShowPass] = useState(false)
@@ -35,7 +36,8 @@ const Login = () => {
     try {
       await signInWithGoogle()
       toast.success('Welcome back! 🎉')
-      navigate('/')
+      const redirect = searchParams.get('redirect') || '/'
+      navigate(redirect)
     } catch (err) {
       setError(err.message || 'Google sign-in failed')
     } finally {
@@ -56,7 +58,8 @@ const Login = () => {
         await signUpWithEmail(form.email, form.password, form.name)
         toast.success('Account created! Let\'s find your dream job 🚀')
       }
-      navigate('/')
+      const redirect = searchParams.get('redirect') || '/'
+      navigate(redirect)
     } catch (err) {
       const messages = {
         'auth/email-already-in-use':   'This email is already registered.',

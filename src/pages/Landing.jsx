@@ -46,16 +46,12 @@ const Landing = () => {
 
   // Real-time job listener
   useEffect(() => {
-    if (!user) {
-      setLoading(false)
-      return
-    }
     const unsub = listenToLatestJobs(newJobs => {
       setJobs(newJobs)
       setLoading(false)
     }, 10)
     return unsub
-  }, [user])
+  }, [])
 
   return (
     <>
@@ -208,27 +204,7 @@ const Landing = () => {
             </Link>
           </div>
 
-          {!user ? (
-            <div className="card-glass p-8 py-12 text-center rounded-3xl max-w-xl mx-auto border border-surface-200/50 dark:border-surface-700/50 shadow-glass-dark relative overflow-hidden backdrop-blur-md">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
-                <span className="text-3xl">🔒</span>
-              </div>
-              <h3 className="font-heading font-extrabold text-2xl text-surface-900 dark:text-surface-50 mb-3">
-                Unlock Latest Opportunities
-              </h3>
-              <p className="text-surface-500 dark:text-surface-400 text-sm mb-8 leading-relaxed">
-                Sign in or create an account to view salary details, direct recruiter apply links, and browse job postings.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/login" className="btn-primary px-8 py-3 text-sm">
-                  Sign In
-                </Link>
-                <Link to="/login?tab=register" className="btn-secondary px-8 py-3 text-sm">
-                  Create Account
-                </Link>
-              </div>
-            </div>
-          ) : loading ? (
+          {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {Array.from({ length: 10 }).map((_, i) => <SkeletonJobCard key={i} />)}
             </div>

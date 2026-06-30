@@ -23,7 +23,7 @@ import ShareModal from '../components/common/ShareModal'
 const JobDetail = () => {
   const { id }     = useParams()
   const navigate   = useNavigate()
-  const { user }   = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const { isBookmarked, toggleBookmark } = useBookmarks()
   const [shareOpen, setShareOpen] = useState(false)
 
@@ -33,6 +33,8 @@ const JobDetail = () => {
   const [notFound,     setNotFound]     = useState(false)
 
   useEffect(() => {
+    if (authLoading) return
+
     const load = async () => {
       setLoading(true)
       const data = await getJob(id)
@@ -41,7 +43,7 @@ const JobDetail = () => {
       setJob(data)
       setLoading(false)
 
-      // Save recently viewed
+      // Save recently viewed (only if user is logged in)
       if (user) saveRecentlyViewed(user.uid, id).catch(() => {})
 
       // Inject JSON-LD schema
@@ -54,9 +56,9 @@ const JobDetail = () => {
       return cleanup
     }
 
-    const cleanup = load()
-    return () => { cleanup.then(fn => fn?.()) }
-  }, [id, user])
+    const loadPromise = load()
+    return () => { loadPromise.then(fn => fn?.()) }
+  }, [id, user, authLoading])
 
   const handleShare = () => {
     setShareOpen(true)
@@ -100,7 +102,7 @@ const JobDetail = () => {
             <ArrowLeft size={16} /> Back to Jobs
           </button>
 
-          {loading ? (
+          {authLoading || loading ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="card p-8"><SkeletonJobDetail /></div>
@@ -198,18 +200,33 @@ const JobDetail = () => {
                   {/* Action buttons */}
                   <div className="flex flex-wrap gap-3">
                     {job.applyLink && (
-                      <a
-                        href={job.applyLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary flex-1 sm:flex-none justify-center"
-                      >
-                        Apply Now <ExternalLink size={16} />
-                      </a>
+                      user ? (
+                        <a
+                          href={job.applyLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary flex-1 sm:flex-none justify-center"
+                        >
+                          Apply Now <ExternalLink size={16} />
+                        </a>
+                      ) : (
+                        <Link
+                          to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`}
+                          className="btn-primary flex-1 sm:flex-none justify-center"
+                        >
+                          Sign In to Apply <ExternalLink size={16} />
+                        </Link>
+                      )
                     )}
 
                     <button
-                      onClick={() => toggleBookmark(job)}
+                      onClick={() => {
+                        if (!user) {
+                          navigate(`/login?redirect=${encodeURIComponent(window.location.pathname)}`)
+                          return
+                        }
+                        toggleBookmark(job)
+                      }}
                       className={`
                         flex items-center gap-2 px-5 py-3 rounded-xl font-semibold border-2 transition-all
                         ${isBookmarked(job.id)
