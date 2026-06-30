@@ -12,7 +12,6 @@ import JobCard from '../components/jobs/JobCard'
 import JobFilters from '../components/jobs/JobFilters'
 import JobSearch from '../components/jobs/JobSearch'
 import { SkeletonJobCard } from '../components/ui/Skeleton'
-import AdBanner from '../components/ads/AdBanner'
 
 const SearchResults = () => {
   const { user } = useAuth()
@@ -23,6 +22,7 @@ const SearchResults = () => {
     workMode:   searchParams.get('workMode') || undefined,
     experience: searchParams.get('experience') || undefined,
     featured:   searchParams.get('featured') === 'true' ? true : undefined,
+    sort:       searchParams.get('sort')     || 'newest',
   }
 
   const { jobs, loading, error, hasMore, filters, updateFilters, clearFilters, loadMore } = useJobs(initialFilters)
@@ -82,122 +82,119 @@ const SearchResults = () => {
         </div>
 
         <div className="page-container py-8">
-          <div className="flex gap-8">
-            {/* Sidebar filters */}
-            <JobFilters
-              filters={filters}
-              onChange={updateFilters}
-              onClear={clearFilters}
-            />
-
-            {/* Results */}
-            <div className="flex-1 min-w-0">
-              {/* Results header */}
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <p className="font-semibold text-surface-900 dark:text-surface-50">
-                    {loading ? 'Searching...' : `${jobs.length}${hasMore ? '+' : ''} jobs found`}
+          {/* Results header with Filter trigger & Sort selection */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-surface-200/60 dark:border-surface-700/60">
+            <div className="flex items-center gap-3">
+              <JobFilters
+                filters={filters}
+                onChange={updateFilters}
+                onClear={clearFilters}
+              />
+              <div>
+                <p className="font-semibold text-surface-900 dark:text-surface-50 text-base">
+                  {loading ? 'Searching...' : `${jobs.length}${hasMore ? '+' : ''} jobs found`}
+                </p>
+                {activeFilterCount > 0 && (
+                  <p className="text-xs text-surface-500 mt-0.5">
+                    {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''} active
                   </p>
-                  {activeFilterCount > 0 && (
-                    <p className="text-sm text-surface-500 mt-0.5">
-                      {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''} active
+                )}
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-surface-500 font-medium">Sort by:</span>
+              <select
+                value={filters.sort || 'newest'}
+                onChange={(e) => updateFilters({ sort: e.target.value })}
+                className="input text-sm max-w-[180px] py-1.5 px-3 cursor-pointer bg-white dark:bg-surface-800"
+              >
+                <option value="newest">Newest First</option>
+                <option value="featured">Featured First</option>
+                <option value="salary">Highest Salary</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Job grid */}
+          {loading && jobs.length === 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {Array.from({ length: 9 }).map((_, i) => <SkeletonJobCard key={i} />)}
+            </div>
+          ) : error ? (
+            <div className="text-center py-20 bg-red-50 dark:bg-red-900/10 rounded-2xl p-6 border border-red-200 dark:border-red-800">
+              <p className="text-4xl mb-3">⚠️</p>
+              <h3 className="font-heading font-semibold text-xl text-red-600 dark:text-red-400 mb-2">
+                Database Query Error
+              </h3>
+              <p className="text-surface-600 dark:text-surface-400 mb-5 text-sm max-w-lg mx-auto break-words">
+                {error}
+              </p>
+              {error.toLowerCase().includes('index') && (
+                <div className="mb-5">
+                  {error.match(/https:\/\/console\.firebase\.google\.com[^\s]+/i) ? (
+                    <div className="space-y-3">
+                      <a
+                        href={error.match(/https:\/\/console\.firebase\.google\.com[^\s]+/i)[0]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-accent py-2.5 px-5 text-sm inline-flex items-center gap-2 shadow-glow-accent"
+                      >
+                        ⚡ Create Index in Firebase
+                      </a>
+                      <p className="text-xs text-surface-400 dark:text-surface-500 max-w-md mx-auto leading-relaxed">
+                        Click the button above to automatically set up the required composite index in your Firebase console. Once created, wait 2-3 minutes for the build to finish, then try again.
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-surface-400 dark:text-surface-500 leading-relaxed max-w-md mx-auto">
+                      💡 <strong>Action Required:</strong> In Firestore, queries filtering on one field and sorting on another require a composite index. Please check your browser's Developer Console (F12) to find the index link.
                     </p>
                   )}
                 </div>
-                <select
-                  onChange={(e) => updateFilters({ sort: e.target.value })}
-                  className="input text-sm max-w-[180px] py-2"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="featured">Featured First</option>
-                  <option value="salary">Highest Salary</option>
-                </select>
+              )}
+              <button onClick={clearFilters} className="btn-primary">
+                Reset & Try Again
+              </button>
+            </div>
+          ) : jobs.length === 0 ? (
+            <div className="text-center py-20">
+              <SearchX size={48} className="mx-auto text-surface-300 dark:text-surface-600 mb-4" />
+              <h3 className="font-heading font-bold text-xl text-surface-700 dark:text-surface-300 mb-2">
+                No jobs found
+              </h3>
+              <p className="text-surface-500 mb-4">
+                Try adjusting your filters or search term.
+              </p>
+              <button onClick={clearFilters} className="btn-primary">
+                Clear Filters
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i % 9} />)}
               </div>
 
-              {/* Job grid */}
-              {loading && jobs.length === 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {Array.from({ length: 9 }).map((_, i) => <SkeletonJobCard key={i} />)}
+              {/* Loading more */}
+              {loading && (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
+                  {Array.from({ length: 3 }).map((_, i) => <SkeletonJobCard key={i} />)}
                 </div>
-              ) : error ? (
-                <div className="text-center py-20 bg-red-50 dark:bg-red-900/10 rounded-2xl p-6 border border-red-200 dark:border-red-800">
-                  <p className="text-4xl mb-3">⚠️</p>
-                  <h3 className="font-heading font-semibold text-xl text-red-600 dark:text-red-400 mb-2">
-                    Database Query Error
-                  </h3>
-                  <p className="text-surface-600 dark:text-surface-400 mb-5 text-sm max-w-lg mx-auto break-words">
-                    {error}
-                  </p>
-                  {error.toLowerCase().includes('index') && (
-                    <div className="mb-5">
-                      {error.match(/https:\/\/console\.firebase\.google\.com[^\s]+/i) ? (
-                        <div className="space-y-3">
-                          <a
-                            href={error.match(/https:\/\/console\.firebase\.google\.com[^\s]+/i)[0]}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-accent py-2.5 px-5 text-sm inline-flex items-center gap-2 shadow-glow-accent"
-                          >
-                            ⚡ Create Index in Firebase
-                          </a>
-                          <p className="text-xs text-surface-400 dark:text-surface-500 max-w-md mx-auto leading-relaxed">
-                            Click the button above to automatically set up the required composite index in your Firebase console. Once created, wait 2-3 minutes for the build to finish, then try again.
-                          </p>
-                        </div>
-                      ) : (
-                        <p className="text-xs text-surface-400 dark:text-surface-500 leading-relaxed max-w-md mx-auto">
-                          💡 <strong>Action Required:</strong> In Firestore, queries filtering on one field and sorting on another require a composite index. Please check your browser's Developer Console (F12) to find the index link.
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  <button onClick={clearFilters} className="btn-primary">
-                    Reset & Try Again
-                  </button>
-                </div>
-              ) : jobs.length === 0 ? (
-                <div className="text-center py-20">
-                  <SearchX size={48} className="mx-auto text-surface-300 dark:text-surface-600 mb-4" />
-                  <h3 className="font-heading font-bold text-xl text-surface-700 dark:text-surface-300 mb-2">
-                    No jobs found
-                  </h3>
-                  <p className="text-surface-500 mb-4">
-                    Try adjusting your filters or search term.
-                  </p>
-                  <button onClick={clearFilters} className="btn-primary">
-                    Clear Filters
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i % 9} />)}
-                  </div>
-
-                  {/* Ad between results */}
-                  {jobs.length >= 6 && <AdBanner slot="mid-results" className="my-6" />}
-
-                  {/* Loading more */}
-                  {loading && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
-                      {Array.from({ length: 3 }).map((_, i) => <SkeletonJobCard key={i} />)}
-                    </div>
-                  )}
-
-                  {/* End message */}
-                  {!hasMore && jobs.length > 0 && (
-                    <div className="text-center py-10">
-                      <BriefcaseBusiness size={32} className="mx-auto text-surface-300 mb-2" />
-                      <p className="text-surface-500 text-sm">You've seen all jobs!</p>
-                    </div>
-                  )}
-                </>
               )}
 
-              {/* Infinite scroll sentinel */}
-              <div ref={sentinelRef} className="h-4" />
-            </div>
-          </div>
+              {/* End message */}
+              {!hasMore && jobs.length > 0 && (
+                <div className="text-center py-10">
+                  <BriefcaseBusiness size={32} className="mx-auto text-surface-300 mb-2" />
+                  <p className="text-surface-500 text-sm">You've seen all jobs!</p>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Infinite scroll sentinel */}
+          <div ref={sentinelRef} className="h-4" />
         </div>
       </div>
     </>

@@ -107,7 +107,11 @@ const AdminJobForm = () => {
         skills:      Array.isArray(rest.skills) ? rest.skills.join(', ') : rest.skills || '',
         salaryMin:   rest.salaryMin || '',
         salaryMax:   rest.salaryMax || '',
-        lastDate:    rest.lastDate?.toDate ? rest.lastDate.toDate().toISOString().split('T')[0] : '',
+        lastDate:    rest.lastDate?.toDate 
+          ? rest.lastDate.toDate().toISOString().split('T')[0] 
+          : typeof rest.lastDate === 'string'
+          ? rest.lastDate.split('T')[0]
+          : '',
         scheduledFor:rest.scheduledFor ? new Date(rest.scheduledFor.seconds * 1000).toISOString().split('T')[0] : '',
       }))
       if (logoUrl) setExistingLogo(logoUrl)

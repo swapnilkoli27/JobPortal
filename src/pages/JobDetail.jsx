@@ -32,6 +32,14 @@ const JobDetail = () => {
   const [loading,      setLoading]      = useState(true)
   const [notFound,     setNotFound]     = useState(false)
 
+  const getTimestamp = (val) => {
+    if (!val) return 0
+    if (val.seconds) return val.seconds * 1000
+    if (val.toDate) return val.toDate().getTime()
+    return new Date(val).getTime() || 0
+  }
+  const isExpired = job?.lastDate && (getTimestamp(job.lastDate) < new Date().setHours(0, 0, 0, 0))
+
   useEffect(() => {
     if (authLoading) return
 
@@ -116,6 +124,19 @@ const JobDetail = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
+                {/* Expired Job Banner */}
+                {isExpired && (
+                  <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-3xl p-6 flex items-start gap-4 shadow-glass backdrop-blur-md">
+                    <span className="text-2xl mt-0.5">⚠️</span>
+                    <div>
+                      <h4 className="font-heading font-bold text-amber-800 dark:text-amber-400 text-base">Application Closed</h4>
+                      <p className="text-sm text-amber-700/80 dark:text-amber-500/80 mt-1 leading-relaxed">
+                        The deadline for this job posting has passed. It is no longer accepting new applications.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Header card */}
                 <div className="card p-6 md:p-8">
                   <div className="flex items-start gap-4 mb-6">
@@ -199,7 +220,7 @@ const JobDetail = () => {
 
                   {/* Action buttons */}
                   <div className="flex flex-wrap gap-3">
-                    {job.applyLink && (
+                    {job.applyLink && !isExpired && (
                       user ? (
                         <a
                           href={job.applyLink}
@@ -292,15 +313,24 @@ const JobDetail = () => {
                     ))}
                   </div>
 
-                  {job.applyLink && (
-                    <a
-                      href={job.applyLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary w-full justify-center mt-5"
-                    >
-                      Apply Now <ExternalLink size={16} />
-                    </a>
+                  {job.applyLink && !isExpired && (
+                    user ? (
+                      <a
+                        href={job.applyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary w-full justify-center mt-5"
+                      >
+                        Apply Now <ExternalLink size={16} />
+                      </a>
+                    ) : (
+                      <Link
+                        to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`}
+                        className="btn-primary w-full justify-center mt-5"
+                      >
+                        Sign In to Apply <ExternalLink size={16} />
+                      </Link>
+                    )
                   )}
                 </motion.div>
 

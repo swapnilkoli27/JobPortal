@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 import {
   ArrowRight, Sparkles, Users, Briefcase, Building2,
-  TrendingUp, CheckCircle2, Zap
+  CheckCircle2, Zap
 } from 'lucide-react'
 import { listenToLatestJobs } from '../firebase/firestore'
 import { JOB_CATEGORIES } from '../utils/formatters'
@@ -14,18 +14,6 @@ import JobCard from '../components/jobs/JobCard'
 import JobSearch from '../components/jobs/JobSearch'
 import { SkeletonJobCard } from '../components/ui/Skeleton'
 import AdBanner from '../components/ads/AdBanner'
-
-// Trending companies (static demo data – replace with Firestore query)
-const COMPANIES = [
-  { name: 'Google',    logo: '🔵', jobs: 42 },
-  { name: 'Microsoft', logo: '🟦', jobs: 38 },
-  { name: 'Amazon',    logo: '🟠', jobs: 65 },
-  { name: 'Flipkart',  logo: '🛒', jobs: 29 },
-  { name: 'Infosys',   logo: '🏢', jobs: 87 },
-  { name: 'TCS',       logo: '🌐', jobs: 120},
-  { name: 'Wipro',     logo: '💡', jobs: 54 },
-  { name: 'Zomato',    logo: '🍕', jobs: 18 },
-]
 
 
 
@@ -228,45 +216,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ── Trending Companies ────────────────────────────────────────── */}
-      <section className="py-16 page-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
-          <h2 className="section-title flex items-center justify-center gap-2">
-            <TrendingUp size={24} className="text-primary-500" />
-            Trending <span className="gradient-text">Companies</span>
-          </h2>
-          <p className="section-subtitle">Top employers hiring right now</p>
-        </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {COMPANIES.map((co, i) => (
-            <motion.div
-              key={co.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <Link
-                to={`/jobs?company=${co.name}`}
-                className="card p-5 flex flex-col items-center gap-3 group text-center"
-              >
-                <span className="text-4xl">{co.logo}</span>
-                <p className="font-heading font-semibold text-surface-800 dark:text-surface-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                  {co.name}
-                </p>
-                <span className="badge-accent text-xs">{co.jobs} open roles</span>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
 
       {/* ── CTA Banner ───────────────────────────────────────────────── */}
       <section className="py-16">

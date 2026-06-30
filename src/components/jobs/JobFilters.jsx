@@ -123,10 +123,10 @@ const JobFilters = ({ filters, onChange, onClear }) => {
 
   return (
     <>
-      {/* Mobile trigger */}
+      {/* Trigger Button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden flex items-center gap-2 btn-secondary text-sm mb-4"
+        className="flex items-center gap-2 btn-secondary text-sm cursor-pointer"
       >
         <SlidersHorizontal size={16} />
         Filters
@@ -137,12 +137,12 @@ const JobFilters = ({ filters, onChange, onClear }) => {
         )}
       </button>
 
-      {/* Mobile drawer */}
+      {/* Slide-out Drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
             <motion.div
-              className="overlay-frosted lg:hidden"
+              className="overlay-frosted"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -177,19 +177,6 @@ const JobFilters = ({ filters, onChange, onClear }) => {
           </>
         )}
       </AnimatePresence>
-
-      {/* Desktop sidebar */}
-      <div className="hidden lg:block w-64 flex-shrink-0">
-        <div className="card p-5 sticky top-24">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="font-heading font-semibold text-surface-900 dark:text-surface-50 flex items-center gap-2">
-              <SlidersHorizontal size={16} className="text-primary-600" />
-              Filters
-            </h2>
-          </div>
-          <FilterContent />
-        </div>
-      </div>
     </>
   )
 }

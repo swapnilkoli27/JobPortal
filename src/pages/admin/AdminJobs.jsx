@@ -36,12 +36,43 @@ const AdminJobs = () => {
 
   useEffect(() => { loadJobs() }, [])
 
+  const getTimestamp = (val) => {
+    if (!val) return 0
+    if (val.seconds) return val.seconds * 1000
+    if (val.toDate) return val.toDate().getTime()
+    return new Date(val).getTime() || 0
+  }
+
+  const isExpired = (lastDate) => {
+    if (!lastDate) return false
+    const time = getTimestamp(lastDate)
+    return time < new Date().setHours(0, 0, 0, 0)
+  }
+
+  const isExpiredMoreThan30Days = (lastDate) => {
+    if (!lastDate) return false
+    const time = getTimestamp(lastDate)
+    const diff = new Date().setHours(0, 0, 0, 0) - time
+    return diff > 30 * 24 * 60 * 60 * 1000
+  }
+
   // Filtered view
   const filtered = jobs.filter(j => {
     const matchSearch = !searchTerm ||
       j.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       j.company.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchStatus = statusFilter === 'all' || j.status === statusFilter
+    
+    let matchStatus = false
+    if (statusFilter === 'all') {
+      matchStatus = true
+    } else if (statusFilter === 'expired-30') {
+      matchStatus = isExpiredMoreThan30Days(j.lastDate)
+    } else if (statusFilter === 'expired') {
+      matchStatus = isExpired(j.lastDate)
+    } else {
+      matchStatus = j.status === statusFilter
+    }
+
     return matchSearch && matchStatus
   })
 
@@ -131,11 +162,26 @@ const AdminJobs = () => {
     URL.revokeObjectURL(url)
   }
 
-  const statusBadge = (status) => ({
-    published: 'badge-success',
-    draft:     'badge-warning',
-    archived:  'badge-error',
-  }[status] || 'badge-gray')
+  const renderStatusBadge = (job) => {
+    if (job.status === 'published' && isExpired(job.lastDate)) {
+      return (
+        <span className="badge text-xs bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800/30 cursor-pointer hover:opacity-80">
+          Expired
+        </span>
+      )
+    }
+    const badges = {
+      published: 'badge-success',
+      draft:     'badge-warning',
+      archived:  'badge-error',
+    }
+    const badgeClass = badges[job.status] || 'badge-gray'
+    return (
+      <span className={`badge text-xs ${badgeClass} cursor-pointer hover:opacity-80`}>
+        {job.status}
+      </span>
+    )
+  }
 
   return (
     <>
@@ -175,12 +221,14 @@ const AdminJobs = () => {
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="input text-sm py-2 w-auto"
+            className="input text-sm py-2 w-auto cursor-pointer"
           >
             <option value="all">All Status</option>
             <option value="published">Published</option>
             <option value="draft">Draft</option>
             <option value="archived">Archived</option>
+            <option value="expired">Expired (All)</option>
+            <option value="expired-30">Expired (&gt; 30 Days)</option>
           </select>
 
           <button onClick={loadJobs} className="btn-ghost p-2 rounded-xl" title="Refresh">
@@ -292,9 +340,7 @@ const AdminJobs = () => {
 
                       <td className="p-4">
                         <button onClick={() => toggleStatus(job)}>
-                          <span className={`badge text-xs ${statusBadge(job.status)} cursor-pointer hover:opacity-80`}>
-                            {job.status}
-                          </span>
+                          {renderStatusBadge(job)}
                         </button>
                       </td>
 

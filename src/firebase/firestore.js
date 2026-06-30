@@ -32,12 +32,30 @@ export const getJobs = async (filters = {}, lastDoc = null, pageSize = 12) => {
   const snap = await getDocs(q)
   let allJobs = snap.docs.map(d => ({ id: d.id, ...d.data(), _snap: d }))
 
-  // 1. Filter status (only published jobs shown to public)
-  allJobs = allJobs.filter(j => j.status === 'published')
+  const isExpired = (lastDate) => {
+    if (!lastDate) return false
+    let dateVal
+    if (lastDate.toDate) {
+      dateVal = lastDate.toDate()
+    } else {
+      dateVal = new Date(lastDate)
+    }
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    dateVal.setHours(0, 0, 0, 0)
+    return dateVal.getTime() < today.getTime()
+  }
+
+  // 1. Filter status (only published and non-expired jobs shown to public)
+  allJobs = allJobs.filter(j => j.status === 'published' && !isExpired(j.lastDate))
 
   // 2. Filter category
   if (filters.category) {
-    allJobs = allJobs.filter(j => j.category === filters.category)
+    if (filters.category === 'internship') {
+      allJobs = allJobs.filter(j => j.category === 'internship' || j.experience === 'internship')
+    } else {
+      allJobs = allJobs.filter(j => j.category === filters.category)
+    }
   }
 
   // 3. Filter workMode
@@ -71,6 +89,33 @@ export const getJobs = async (filters = {}, lastDoc = null, pageSize = 12) => {
       
       return matchTitle || matchCompany || matchSkills
     })
+  }
+
+  // 6.5 Sort results
+  const getTimestamp = (val) => {
+    if (!val) return 0
+    if (val.seconds) return val.seconds * 1000
+    if (val.toDate) return val.toDate().getTime()
+    return new Date(val).getTime() || 0
+  }
+
+  if (filters.sort) {
+    if (filters.sort === 'newest') {
+      allJobs.sort((a, b) => getTimestamp(b.postedAt) - getTimestamp(a.postedAt))
+    } else if (filters.sort === 'featured') {
+      allJobs.sort((a, b) => {
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+        return getTimestamp(b.postedAt) - getTimestamp(a.postedAt)
+      })
+    } else if (filters.sort === 'salary') {
+      allJobs.sort((a, b) => {
+        const salA = Number(a.salaryMax) || Number(a.salaryMin) || 0
+        const salB = Number(b.salaryMax) || Number(b.salaryMin) || 0
+        if (salB !== salA) return salB - salA
+        return getTimestamp(b.postedAt) - getTimestamp(a.postedAt)
+      })
+    }
   }
 
   // 7. Client-side pagination simulation

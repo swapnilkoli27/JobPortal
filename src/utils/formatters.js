@@ -98,6 +98,7 @@ export const formatViews = (n) => {
 
 /** Experience level labels */
 export const EXPERIENCE_LABELS = {
+  'internship': 'Internship',
   'fresher': 'Fresher / 0 yrs',
   '1-2':     '1 – 2 years',
   '2-5':     '2 – 5 years',
@@ -116,6 +117,8 @@ export const WORK_MODE_LABELS = {
 export const JOB_CATEGORIES = [
   { id: 'web-dev',      label: 'Web Development',      icon: '🌐', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' },
   { id: 'software',     label: 'Software Developer',  icon: '💻', color: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300' },
+  { id: 'java-dev',     label: 'Java Developer',       icon: '🖥️', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' },
+  { id: 'python-dev',   label: 'Python Developer',     icon: '🐍', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' },
   { id: 'data-science', label: 'Data Science',         icon: '🧬', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300' },
   { id: 'data-analyst', label: 'Data Analyst',         icon: '📊', color: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300' },
   { id: 'ai-ml',        label: 'AI / ML',              icon: '🤖', color: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300' },
@@ -124,16 +127,12 @@ export const JOB_CATEGORIES = [
   { id: 'cloud-devops', label: 'Cloud & DevOps',       icon: '☁️', color: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300' },
   { id: 'design',       label: 'Design / UI-UX',       icon: '🎨', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' },
   { id: 'product-mgmt', label: 'Product Management',   icon: '📋', color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' },
+  { id: 'mechanical-engg', label: 'Mechanical Engg',    icon: '⚙️', color: 'bg-zinc-100 text-zinc-700 dark:bg-zinc-900/30 dark:text-zinc-300' },
   { id: 'internship',   label: 'Internship',           icon: '🎓', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' },
-  { id: 'remote',       label: 'Remote',               icon: '🌍', color: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300' },
   { id: 'government',   label: 'Government',           icon: '🏛️', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' },
   { id: 'sales',        label: 'Sales & Business',     icon: '🤝', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' },
   { id: 'pharma',       label: 'Pharma & Biotech',     icon: '💊', color: 'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300' },
   { id: 'healthcare',   label: 'Healthcare & Medical', icon: '🏥', color: 'bg-stone-100 text-stone-700 dark:bg-stone-900/30 dark:text-stone-300' },
   { id: 'hr',           label: 'Human Resources (HR)', icon: '👥', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300' },
-  { id: 'operations',   label: 'Operations & Logistics',icon: '📦', color: 'bg-zinc-100 text-zinc-700 dark:bg-zinc-900/30 dark:text-zinc-300' },
-  { id: 'education',    label: 'Education & Teaching', icon: '🏫', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' },
-  { id: 'content',      label: 'Content & Writing',    icon: '✍️', color: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300' },
-  { id: 'legal',        label: 'Legal Services',       icon: '⚖️', color: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-900/30 dark:text-neutral-300' },
-  { id: 'finance',      label: 'Finance',              icon: '💰', color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' }
+  { id: 'education',    label: 'Education & Teaching', icon: '🏫', color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' }
 ]
