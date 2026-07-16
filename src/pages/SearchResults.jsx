@@ -37,6 +37,18 @@ const SearchResults = () => {
 
   const handleSearch = (term) => updateFilters({ search: term })
 
+  const handleQuickLink = (category) => {
+    updateFilters({
+      search: '',
+      location: '',
+      experience: '',
+      jobType: '',
+      workMode: '',
+      salaryMin: '',
+      category: category
+    })
+  }
+
   const categoryObject = JOB_CATEGORIES.find(c => c.id === filters.category)
   const categoryLabel = categoryObject ? categoryObject.label : ''
   const activeFilterCount = Object.values(filters).filter(v => v && v !== 'undefined').length
@@ -158,16 +170,78 @@ const SearchResults = () => {
               </button>
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-20">
-              <SearchX size={48} className="mx-auto text-surface-300 dark:text-surface-600 mb-4" />
-              <h3 className="font-heading font-bold text-xl text-surface-700 dark:text-surface-300 mb-2">
-                No jobs found
+            <div className="max-w-2xl mx-auto text-center py-16 px-4">
+              <div className="w-20 h-20 bg-primary-50 dark:bg-primary-950/30 rounded-3xl flex items-center justify-center mx-auto mb-6 text-primary-600 dark:text-primary-400 shadow-glass border border-primary-100 dark:border-primary-900/50">
+                <SearchX size={36} />
+              </div>
+              
+              <h3 className="font-heading font-bold text-2xl text-surface-900 dark:text-surface-50 mb-3">
+                No jobs available right now
               </h3>
-              <p className="text-surface-500 mb-4">
-                Try adjusting your filters or search term.
+              
+              <p className="text-surface-500 dark:text-surface-400 text-base max-w-md mx-auto mb-10 leading-relaxed">
+                We're currently updating this category with new opportunities.
               </p>
-              <button onClick={clearFilters} className="btn-primary">
-                Clear Filters
+              
+              <div className="card-glass p-6 md:p-8 text-left rounded-3xl border border-surface-200/50 dark:border-surface-700/50 shadow-glass max-w-md mx-auto mb-8">
+                <h4 className="font-heading font-bold text-xs text-surface-400 uppercase tracking-wider mb-4">
+                  Meanwhile, you can:
+                </h4>
+                
+                <ul className="space-y-3">
+                  <li>
+                    <button
+                      onClick={() => clearFilters()}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-sm font-semibold text-surface-700 dark:text-surface-300 transition-colors group cursor-pointer"
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform duration-200">🔥</span>
+                      <span>Browse the latest jobs</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleQuickLink('internship')}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-sm font-semibold text-surface-700 dark:text-surface-300 transition-colors group cursor-pointer"
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform duration-200">🎓</span>
+                      <span>View internships</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleQuickLink('software')}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-sm font-semibold text-surface-700 dark:text-surface-300 transition-colors group cursor-pointer"
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform duration-200">💻</span>
+                      <span>Explore Software Development jobs</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleQuickLink('ai-ml')}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-sm font-semibold text-surface-700 dark:text-surface-300 transition-colors group cursor-pointer"
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform duration-200">🤖</span>
+                      <span>Check AI/ML openings</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleQuickLink('data-analyst')}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-sm font-semibold text-surface-700 dark:text-surface-300 transition-colors group cursor-pointer"
+                    >
+                      <span className="text-lg group-hover:scale-110 transition-transform duration-200">📊</span>
+                      <span>View Data Analyst jobs</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              
+              <button
+                onClick={() => clearFilters()}
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-sm transition-colors cursor-pointer"
+              >
+                Or return to All Jobs.
               </button>
             </div>
           ) : (
