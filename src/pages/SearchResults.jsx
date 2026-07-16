@@ -248,6 +248,78 @@ const SearchResults = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i % 9} />)}
+                
+                {/* Blank space filler when category has 1-5 jobs */}
+                {jobs.length >= 1 && jobs.length <= 5 && (
+                  <div className="card-glass p-6 flex flex-col justify-between rounded-3xl border border-surface-200/50 dark:border-surface-700/50 shadow-glass min-h-[350px]">
+                    <div>
+                      <h4 className="font-heading font-bold text-base text-surface-900 dark:text-surface-50 mb-1">
+                        Looking for more?
+                      </h4>
+                      <p className="text-xs text-surface-500 dark:text-surface-400 leading-relaxed mb-4">
+                        We're currently updating this category with new opportunities.
+                      </p>
+                      
+                      <p className="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-2">
+                        Meanwhile, you can:
+                      </p>
+                      <ul className="space-y-1.5">
+                        <li>
+                          <button
+                            onClick={() => clearFilters()}
+                            className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-xs font-semibold text-surface-700 dark:text-surface-300 transition-colors cursor-pointer"
+                          >
+                            <span>🔥</span>
+                            <span>Browse the latest jobs</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => handleQuickLink('internship')}
+                            className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-xs font-semibold text-surface-700 dark:text-surface-300 transition-colors cursor-pointer"
+                          >
+                            <span>🎓</span>
+                            <span>View internships</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => handleQuickLink('software')}
+                            className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-xs font-semibold text-surface-700 dark:text-surface-300 transition-colors cursor-pointer"
+                          >
+                            <span>💻</span>
+                            <span>Explore Software Dev jobs</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => handleQuickLink('ai-ml')}
+                            className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-xs font-semibold text-surface-700 dark:text-surface-300 transition-colors cursor-pointer"
+                          >
+                            <span>🤖</span>
+                            <span>Check AI/ML openings</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => handleQuickLink('data-analyst')}
+                            className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 text-left text-xs font-semibold text-surface-700 dark:text-surface-300 transition-colors cursor-pointer"
+                          >
+                            <span>📊</span>
+                            <span>View Data Analyst jobs</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <button
+                      onClick={() => clearFilters()}
+                      className="mt-4 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold text-xs text-left transition-colors cursor-pointer"
+                    >
+                      Or return to All Jobs.
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Loading more */}
